@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Validate Win Logo</title>
+
+  <!-- Manrope -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/MotionPathPlugin.min.js"></script>
+
+  <style>
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    #container {
+      display: flex;
+      align-items: center;
+      gap: 44px;
+    }
+
+    #logoWrapper {
+      position: relative;
+      width: 220px;
+      height: 220px;
+    }
+
+    /* Esferas animadas más pequeñas */
+    #orange, #yellow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 170px;
+      height: 170px;
+    }
+
+    /* Logo final más grande */
+    #finalLogo {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 200px;
+      height: 200px;
+      opacity: 0;
+      transform: scale(0.95);
+    }
+
+    #wordmark {
+      font-family: "Manrope", sans-serif;
+      font-size: 70px;
+      font-weight: 600;
+      color: #0A4F6E;
+      line-height: 1;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+<div id="container">
+  <div id="logoWrapper">
+
+    <!-- CÍRCULO NARANJO -->
+    <svg id="orange" viewBox="0 0 245 245">
+      <path d="M122.5 0H122.501C190.156 0 245.001 54.8451 245.001 122.5C245.001 190.155 190.156 245 122.501 245H122.5C54.8451 245 0 190.155 0 122.5C0 54.8451 54.8451 0 122.5 0Z" fill="#F16347"/>
+    </svg>
+
+    <!-- CÍRCULO AMARILLO -->
+    <svg id="yellow" viewBox="0 0 245 245">
+      <path d="M122.5 0H122.501C190.156 0 245.001 54.8451 245.001 122.5C245.001 190.155 190.156 245 122.501 245H122.5C54.8451 245 0 190.155 0 122.5C0 54.8451 54.8451 0 122.5 0Z" fill="#F0DC29"/>
+    </svg>
+
+    <!-- LOGO FINAL -->
+    <svg id="finalLogo" viewBox="0 0 392 302">
+      <rect width="245.001" height="245" rx="122.5" transform="matrix(-1 0 0 1 273.693 28.9868)" fill="#F16347"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M363.307 151.487C363.307 83.8319 308.462 28.9869 240.807 28.9869C236.113 28.9869 231.48 29.2509 226.924 29.7649C216.432 29.6063 205.908 32.1063 196.448 37.2649C196.191 37.3648 195.935 37.4655 195.679 37.5671C195.734 37.5853 195.829 37.5724 195.955 37.5369C191.075 40.2569 186.485 43.6901 182.338 47.8365L132.458 97.7166C108.352 121.822 108.352 160.905 132.457 185.01C148.351 200.904 170.757 206.318 191.087 201.253C201.751 198.678 211.862 193.228 220.187 184.903L268.291 136.799C269.49 135.6 270.622 134.388 271.689 133.165C272.585 139.142 273.05 145.26 273.05 151.487C273.05 203.205 241 247.437 195.678 265.406C209.644 270.943 224.87 273.987 240.807 273.987C308.462 273.987 363.307 219.142 363.307 151.487Z" fill="#F0DC29"/>
+    </svg>
+
+  </div>
+
+  <!-- TEXTO -->
+  <div id="wordmark">¡WIN!</div>
+</div>
+
+<script>
+  window.onload = () => {
+    gsap.registerPlugin(MotionPathPlugin);
+
+    const orange = document.getElementById("orange");
+    const yellow = document.getElementById("yellow");
+    const finalLogo = document.getElementById("finalLogo");
+
+    const tl = gsap.timeline();
+
+    const offset = 75;
+
+    tl.set([orange, yellow], { x: 0, y: 0 });
+
+    tl.to(orange, {
+      duration: 2.8,
+      motionPath: {
+        path: [
+          {x: 0, y: 0},
+          {x: 65, y: -40},
+          {x: 100, y: 0},
+          {x: 65, y: 40},
+          {x: -offset, y: 0}
+        ],
+        curviness: 1.5
+      },
+      ease: "power1.inOut"
+    }, 0);
+
+    tl.to(yellow, {
+      duration: 2.8,
+      motionPath: {
+        path: [
+          {x: 0, y: 0},
+          {x: -65, y: 40},
+          {x: -100, y: 0},
+          {x: -65, y: -40},
+          {x: offset, y: 0}
+        ],
+        curviness: 1.5
+      },
+      ease: "power1.inOut"
+    }, 0);
+
+    tl.to({}, { duration: 0.15 });
+
+    tl.to([orange, yellow], {
+      duration: 0.25,
+      opacity: 0
+    });
+
+    tl.to(finalLogo, {
+      duration: 0.6,
+      opacity: 1,
+      scale: 1,
+      ease: "power2.out"
+    });
+  };
+</script>
+
+</body>
+</html>
